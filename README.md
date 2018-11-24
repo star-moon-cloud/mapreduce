@@ -330,4 +330,44 @@ public class Score {
 		a1.sinks.k1.channel=c1
 		a1.sinks.k2.channel=c1
 ---------------------
+a1.sources = r1
+a1.sinks = k1 k2
+a1.channels = c1
+ 
+# Describe/configure the source
+a1.sources.r1.type = exec
+a1.sources.r1.channels=c1
+a1.sources.r1.command=tail -F /root/dev/biz/logs/bizlogic.log 
 
+#define sinkgroups
+a1.sinkgroups=g1
+a1.sinkgroups.g1.sinks=k1 k2
+a1.sinkgroups.g1.processor.type=load_balance
+a1.sinkgroups.g1.processor.backoff=true
+a1.sinkgroups.g1.processor.selector=round_robin
+
+#define the sink 1
+a1.sinks.k1.type=avro
+a1.sinks.k1.hostname=192.168.11.179
+a1.sinks.k1.port=9876  
+
+#define the sink 2
+a1.sinks.k2.type=avro
+a1.sinks.k2.hostname=192.168.11.178
+a1.sinks.k2.port=9876
+
+
+# Use a channel which buffers events in memory
+a1.channels.c1.type = memory
+a1.channels.c1.capacity = 1000
+a1.channels.c1.transactionCapacity = 100
+ 
+# Bind the source and sink to the channel
+a1.sources.r1.channels = c1
+a1.sinks.k1.channel = c1
+a1.sinks.k2.channel=c1
+--------------------- 
+作者：chiweitree 
+来源：CSDN 
+原文：https://blog.csdn.net/simonchi/article/details/42495299 
+版权声明：本文为博主原创文章，转载请附上博文链接！
