@@ -301,3 +301,33 @@ public class Score {
     }
 
 }
+
+                a1.sources = r1
+		a1.channels = c1
+		a1.sinkgroups = g1
+		a1.sinks = k1 k2
+
+		a1.sources.r1.type=netcat
+		a1.sources.r1.bind=localhost
+		a1.sources.r1.port=8888
+
+		a1.channels.c1.type = memory
+		a1.channels.c1.capacity = 100000
+		a1.channels.c1.transactionCapacity = 100
+		a1.sinks.k1.type=file_roll
+		a1.sinks.k1.sink.directory=/home/centos/flume/f1
+
+		a1.sinks.k2.type=file_roll
+		a1.sinks.k2.sink.directory=/home/centos/flume/f2
+
+		a1.sinkgroups.g1.sinks = k1 k2
+		a1.sinkgroups.g1.processor.type = failover
+		a1.sinkgroups.g1.processor.priority.k1 = 1
+		a1.sinkgroups.g1.processor.priority.k2 = 2
+		a1.sinkgroups.g1.processor.maxpenalty = 10000
+
+		a1.sources.r1.channels=c1
+		a1.sinks.k1.channel=c1
+		a1.sinks.k2.channel=c1
+---------------------
+
