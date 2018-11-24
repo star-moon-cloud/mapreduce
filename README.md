@@ -1,4 +1,12 @@
 # mapreduce
+
+
+
+
+
+
+
+
 public class AverageTest {
 		// 定义输入路径
 		private static final String INPUT_PATH = "hdfs://liaozhongmin:9000/average_file";
